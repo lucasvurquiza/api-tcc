@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 
-const filePath = path.join(__dirname, '../data/lightStatus.json');
+const filePath = path.join(__dirname, 'data/lightStatus.json');
 
 const readLightStatus = (): any => {
   const data = fs.readFileSync(filePath, 'utf-8');
