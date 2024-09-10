@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc && mkdir dist/data && cp src/data/lightStatus.json dist/data/lightStatus.json",
+    "build": "tsc",
     "dev": "nodemon"
   },
   "keywords": [],

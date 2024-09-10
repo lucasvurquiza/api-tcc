@@ -1,17 +1,13 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
 
-const filePath = path.join(__dirname, 'data/lightStatus.json');
+let lightStauts = 'off';
 
 const readLightStatus = (): any => {
-  const data = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(data);
+  return lightStauts;
 };
 
 const writeLightStatus = (status: string) => {
-  const data = { status };
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  lightStauts = status
 };
 
 export const getLightAction = (req: Request, res: Response) => {
@@ -40,5 +36,5 @@ export const postLightAction = (req: Request, res: Response) => {
 
 export const getLightStatus = (req: Request, res: Response) => {
   const currentStatus = readLightStatus();
-  res.status(200).json({ status: currentStatus.status });
+  res.status(200).json({ status: currentStatus });
 };
