@@ -1,14 +1,28 @@
 import { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
+
+const filePath = path.join(__dirname, '../data/lightStatus.json');
+
+const readLightStatus = (): any => {
+  const data = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(data);
+};
+
+const writeLightStatus = (status: string) => {
+  const data = { status };
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+};
 
 export const getLightAction = (req: Request, res: Response) => {
   const action = req.query.action;
 
   if (action) {
-    console.log(`200: ${action}`)
-    res.status(200).send(`Requisição GET recebida. Light action is: ${action}`);
+    writeLightStatus(action as string);
+
+    res.status(200).send(`GET request received. Light action is now: ${action}`);
   } else {
-    console.log('400: action not passed');
-    res.status(400).send('Requisição GET quebrou. Action is required.');
+    res.status(400).send(`GET request failed. Action is required.`);
   }
 };
 
@@ -16,10 +30,15 @@ export const postLightAction = (req: Request, res: Response) => {
   const { action } = req.body;
 
   if (action) {
-    console.log(`200: ${action}`)
-    res.status(200).send(`Requisição POST recebida. Light action is: ${action}`);
+    writeLightStatus(action);
+
+    res.status(200).send(`POST request received. Light action is now: ${action}`);
   } else {
-    console.log('400: action not passed');
-    res.status(400).send('Requisição POST quebrou. Action is required.');
+    res.status(400).send('POST request failed. Action is required.');
   }
+};
+
+export const getLightStatus = (req: Request, res: Response) => {
+  const currentStatus = readLightStatus();
+  res.status(200).json({ status: currentStatus.status });
 };
