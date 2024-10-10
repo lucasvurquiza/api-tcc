@@ -1,4 +1,3 @@
-// mqttService.ts
 import mqtt from 'mqtt';
 
 class MqttService {
